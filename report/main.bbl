@@ -1,0 +1,42 @@
+\begin{thebibliography}{1}
+
+\bibitem{chicco2020machine}
+Davide Chicco and Giuseppe Jurman.
+\newblock Machine learning can predict survival of patients with heart failure
+  from serum creatinine and ejection fraction alone.
+\newblock {\em BMC Medical Informatics and Decision Making}, 20(1):16, 2020.
+
+\bibitem{dietterich2000experimental}
+Thomas~G. Dietterich.
+\newblock An experimental comparison of three methods for constructing
+  ensembles of decision trees: Bagging, boosting, and randomization.
+\newblock {\em Machine Learning}, 40(2):139--157, 2000.
+
+\bibitem{esposito1997comparative}
+Floriana Esposito, Donato Malerba, and Giovanni Semeraro.
+\newblock A comparative analysis of methods for pruning decision trees.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  19(5):476--491, 1997.
+
+\bibitem{quinlan1987simplifying}
+J.~Ross Quinlan.
+\newblock Simplifying decision trees.
+\newblock {\em International Journal of Man-Machine Studies}, 27(3):221--234,
+  1987.
+
+\bibitem{savarese2017global}
+Gianluigi Savarese and Lars~H Lund.
+\newblock Global public health burden of heart failure.
+\newblock {\em Cardiac Failure Review}, 3(1):7--11, 2017.
+
+\bibitem{stanfill1986toward}
+Craig Stanfill and David Waltz.
+\newblock Toward memory-based reasoning.
+\newblock {\em Communications of the ACM}, 29(12):1213--1228, 1986.
+
+\bibitem{wilson1997improved}
+D.~Randall Wilson and Tony~R. Martinez.
+\newblock Improved heterogeneous distance functions.
+\newblock {\em Journal of Artificial Intelligence Research}, 6:1--34, 1997.
+
+\end{thebibliography}

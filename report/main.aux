@@ -1,0 +1,87 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{savarese2017global}
+\citation{chicco2020machine}
+\citation{chicco2020machine}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{chicco2020machine}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Data}{2}{section.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The 11 nominal predictors and the class. Cardinality denotes the number of distinct values that occur in heart.csv.}}{2}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:features}{{1}{2}{The 11 nominal predictors and the class. Cardinality denotes the number of distinct values that occur in heart.csv}{table.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Class distribution of the heart-failure dataset ($n=273$, $32.97\%$ \texttt  {died}). The mild imbalance means accuracy alone can be misleading: a constant ``\texttt  {survived}'' predictor already scores 67\%.}}{2}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:classdist}{{1}{2}{Class distribution of the heart-failure dataset ($n=273$, $32.97\%$ \texttt {died}). The mild imbalance means accuracy alone can be misleading: a constant ``\texttt {survived}'' predictor already scores 67\%}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The KNN+ and DT+ Algorithms}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}KNN+: information-gain-weighted Value Difference Metric}{2}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:knnplus}{{3.1}{2}{KNN+: information-gain-weighted Value Difference Metric}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Motivation.}{2}{subsection.3.1}\protected@file@percent }
+\citation{stanfill1986toward}
+\citation{quinlan1987simplifying}
+\@writefile{toc}{\contentsline {paragraph}{Improvement~1: Value Difference Metric (VDM).}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Improvement~2: information-gain feature weighting.}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Voting.}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}DT+: Information Gain with Reduced-Error Pruning}{3}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:dtplus}{{3.2}{3}{DT+: Information Gain with Reduced-Error Pruning}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Motivation.}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Improvement: Reduced-Error Pruning (REP).}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces \textsc  {REP}---Reduced-Error Pruning of an Information-Gain DT.}}{4}{algorithm.1}\protected@file@percent }
+\newlabel{alg:rep}{{1}{4}{\textsc {REP}---Reduced-Error Pruning of an Information-Gain DT}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{4}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental setup}{4}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Accuracy of all classifiers}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Additional performance measures}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Mean ten-fold stratified cross-validation accuracy (\%). Boldface marks the best non-trivial accuracy. Weka columns to be confirmed by the group after running Weka on \texttt  {heart.csv} with the default settings described in the assignment.}}{5}{table.caption.3}\protected@file@percent }
+\newlabel{tab:acc}{{2}{5}{Mean ten-fold stratified cross-validation accuracy (\%). Boldface marks the best non-trivial accuracy. Weka columns to be confirmed by the group after running Weka on \texttt {heart.csv} with the default settings described in the assignment}{table.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Per-class metrics on the \texttt  {died} class.}}{5}{table.caption.4}\protected@file@percent }
+\newlabel{tab:metrics}{{3}{5}{Per-class metrics on the \texttt {died} class}{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Stability across folds.}}{5}{table.caption.7}\protected@file@percent }
+\newlabel{tab:foldsd}{{4}{5}{Stability across folds}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{5}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{5}{Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison of all classifiers}{5}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:disc-all}{{5.1}{5}{Comparison of all classifiers}{subsection.5.1}{}}
+\citation{esposito1997comparative}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Mean accuracy on the heart-failure dataset (10-fold stratified CV). Bars are coloured by family: \textcolor {cBaseline!75!black}{$\blacksquare $}~ZeroR baseline, \textcolor {cWeka!75!black}{$\blacksquare $}~Weka classical, \textcolor {cWekaTree!75!black}{$\blacksquare $}~Weka single tree (J48), \textcolor {cWekaEnsemble!75!black}{$\blacksquare $}~Weka ensemble, \textcolor {cMyKNN!75!black}{$\blacksquare $}~MyKNN, \textcolor {cMyKNNplus!75!black}{$\blacksquare $}~MyKNN+, \textcolor {cMyDT!75!black}{$\blacksquare $}~MyDT, \textcolor {cMyDTplus!75!black}{$\blacksquare $}~MyDT+.}}{6}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:accbar}{{2}{6}{Mean accuracy on the heart-failure dataset (10-fold stratified CV). Bars are coloured by family: \textcolor {cBaseline!75!black}{$\blacksquare $}~ZeroR baseline, \textcolor {cWeka!75!black}{$\blacksquare $}~Weka classical, \textcolor {cWekaTree!75!black}{$\blacksquare $}~Weka single tree (J48), \textcolor {cWekaEnsemble!75!black}{$\blacksquare $}~Weka ensemble, \textcolor {cMyKNN!75!black}{$\blacksquare $}~MyKNN, \textcolor {cMyKNNplus!75!black}{$\blacksquare $}~MyKNN+, \textcolor {cMyDT!75!black}{$\blacksquare $}~MyDT, \textcolor {cMyDTplus!75!black}{$\blacksquare $}~MyDT+}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}MyKNN vs.\ MyKNN+ and MyDT vs.\ MyDT+}{6}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:disc-myvsmyplus}{{5.2}{6}{MyKNN vs.\ MyKNN+ and MyDT vs.\ MyDT+}{subsection.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces F1 score on the positive (\texttt  {died}) class. The ranking is strikingly different from accuracy: SMO ($0.556$), OneR ($0.544$) and IBk\,$k{=}1$ ($0.543$) lead, while ZeroR collapses to F1$=0$ despite scoring $67.0\%$ accuracy. Same colour scheme as Figure~\ref {fig:accbar}.}}{7}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:f1bar}{{3}{7}{F1 score on the positive (\texttt {died}) class. The ranking is strikingly different from accuracy: SMO ($\fOneSMO $), OneR ($\fOneOneR $) and IBk\,$k{=}1$ ($\fOneIBkOne $) lead, while ZeroR collapses to F1$=0$ despite scoring $\accZeroR \%$ accuracy. Same colour scheme as Figure~\ref {fig:accbar}}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}My classifiers vs.\ Weka's}{7}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:disc-vs-weka}{{5.3}{7}{My classifiers vs.\ Weka's}{subsection.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Reduced-Error Pruning shrinks the tree by $83\%$ (left) while \emph  {simultaneously} raising mean cross-validation accuracy by $9.5$ percentage points (right). The unpruned baseline was overfitting noise into its leaves.}}{8}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:dtcompare}{{4}{8}{Reduced-Error Pruning shrinks the tree by $83\%$ (left) while \emph {simultaneously} raising mean cross-validation accuracy by $9.5$ percentage points (right). The unpruned baseline was overfitting noise into its leaves}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Per-fold accuracy for the four hand-coded classifiers across the ten stratified folds of \texttt  {heart-folds.csv}. MyKNN+ is the flattest curve, confirming its low across-fold variance.}}{8}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:perfold}{{5}{8}{Per-fold accuracy for the four hand-coded classifiers across the ten stratified folds of \texttt {heart-folds.csv}. MyKNN+ is the flattest curve, confirming its low across-fold variance}{figure.caption.9}{}}
+\citation{dietterich2000experimental}
+\citation{chicco2020machine}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}J48-unpruned vs.\ J48-pruned: the effect of pruning}{9}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:disc-pruning}{{5.4}{9}{J48-unpruned vs.\ J48-pruned: the effect of pruning}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Tree-based classifiers: single tree vs.\ ensembles}{9}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:disc-trees}{{5.5}{9}{Tree-based classifiers: single tree vs.\ ensembles}{subsection.5.5}{}}
+\citation{wilson1997improved}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{10}{section.6}\protected@file@percent }
+\bibstyle{plain}
+\bibdata{references}
+\bibcite{chicco2020machine}{1}
+\bibcite{dietterich2000experimental}{2}
+\bibcite{esposito1997comparative}{3}
+\bibcite{quinlan1987simplifying}{4}
+\bibcite{savarese2017global}{5}
+\bibcite{stanfill1986toward}{6}
+\bibcite{wilson1997improved}{7}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Source code: KNN+}{11}{appendix.A}\protected@file@percent }
+\newlabel{app:knnplus-code}{{A}{11}{Source code: KNN+}{appendix.A}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces \texttt  {plus.py}: shared helpers (lines 49--100) and the KNN+ classifier (lines 107--200). The information-gain weights are computed in \texttt  {\_info\_gains}, the Laplace-smoothed VDM tables in \texttt  {\_build\_vdm\_tables}, and the per-instance distance and majority vote in \texttt  {classify\_knnplus}.}}{11}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Source code: DT+}{14}{appendix.B}\protected@file@percent }
+\newlabel{app:dtplus-code}{{B}{14}{Source code: DT+}{appendix.B}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces \texttt  {plus.py}: the DT+ classifier. The full Information-Gain tree is built by \texttt  {\_build\_dt}, the stratified grow/prune split by \texttt  {\_stratified\_split}, and the bottom-up Reduced-Error Pruning by \texttt  {\_rep\_prune}. The 25\% prune fraction was selected by internal cross-validation as described in Section~\ref {sec:dtplus}.}}{14}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}MyDT diagram (full Information-Gain tree, no pruning)}{16}{appendix.C}\protected@file@percent }
+\newlabel{app:dt-tree}{{C}{16}{MyDT diagram (full Information-Gain tree, no pruning)}{appendix.C}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces MyDT trained on heart.csv. Each leaf is shown as ``$\rightarrow $ class''.}}{16}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D}MyDT+ diagram (Reduced-Error Pruning)}{21}{appendix.D}\protected@file@percent }
+\newlabel{app:dt-plus-tree}{{D}{21}{MyDT+ diagram (Reduced-Error Pruning)}{appendix.D}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces MyDT+ trained on heart.csv with REP and a $25\%$ prune set.}}{21}{lstlisting.4}\protected@file@percent }
+\gdef \@abspage@last{22}
