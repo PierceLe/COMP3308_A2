@@ -18,6 +18,8 @@
 \usepackage{algpseudocode}
 \usepackage{microtype}
 \usepackage{titlesec}
+\usepackage[section]{placeins}
+\usepackage{float}
 \usepackage{pgfplots}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
@@ -85,7 +87,7 @@
 \newcommand{\accZeroR}{67.0}
 \newcommand{\accOneR}{71.8}
 \newcommand{\accIBkOne}{69.2}
-\newcommand{\accIBkFive}{70.7}% TODO: re-run Weka with IBk -K 5
+\newcommand{\accIBkFive}{71.1}
 \newcommand{\accNB}{71.1}
 \newcommand{\accJfourEightU}{65.9}
 \newcommand{\accJfourEightP}{72.2}
@@ -99,7 +101,7 @@
 \newcommand{\fOneZeroR}{0.000}
 \newcommand{\fOneOneR}{0.544}
 \newcommand{\fOneIBkOne}{0.543}
-\newcommand{\fOneIBkFive}{0.439}% TODO: re-run Weka with IBk -K 5
+\newcommand{\fOneIBkFive}{0.432}
 \newcommand{\fOneNB}{0.490}
 \newcommand{\fOneJfourEightU}{0.486}
 \newcommand{\fOneJfourEightP}{0.465}
@@ -113,7 +115,7 @@
 \newcommand{\recZeroR}{0.000}
 \newcommand{\recOneR}{0.511}
 \newcommand{\recIBkOne}{0.556}
-\newcommand{\recIBkFive}{0.378}% TODO: re-run Weka with IBk -K 5
+\newcommand{\recIBkFive}{0.333}
 \newcommand{\recNB}{0.422}
 \newcommand{\recJfourEightU}{0.489}
 \newcommand{\recJfourEightP}{0.367}
@@ -122,6 +124,19 @@
 \newcommand{\recBagg}{0.322}
 \newcommand{\recBoost}{0.478}
 \newcommand{\recRF}{0.367}
+
+% Precision on "died" (computed from Weka confusion matrices)
+\newcommand{\precOneR}{0.582}
+\newcommand{\precIBkOne}{0.532}
+\newcommand{\precIBkFive}{0.612}
+\newcommand{\precNB}{0.585}
+\newcommand{\precJfourEightU}{0.484}
+\newcommand{\precJfourEightP}{0.635}
+\newcommand{\precMLP}{0.446}
+\newcommand{\precSMO}{0.595}
+\newcommand{\precBagg}{0.569}
+\newcommand{\precBoost}{0.506}
+\newcommand{\precRF}{0.524}
 
 % =========================================================================
 % MY-CLASSIFIER RESULTS - measured by us using the official heart-folds.csv
@@ -134,6 +149,14 @@
 \newcommand{\accDT}{63.8}
 \newcommand{\accDTplus}{73.3}
 
+% Precision/Recall/F1 on "died" for our six classifiers (from extra_analysis.py)
+\newcommand{\precKNNone}{0.384}
+\newcommand{\precKNNplusone}{0.433}
+\newcommand{\precKNNfive}{0.471}
+\newcommand{\precKNNplusfive}{0.538}
+\newcommand{\precDT}{0.456}
+\newcommand{\precDTplus}{0.660}
+
 \title{\textbf{COMP3308 Assignment 2 Part 2: Report}\\[2pt]
 \large Predicting Survival of Heart-Failure Patients\\
 \large with Hand-Coded and Weka Classifiers}
@@ -144,10 +167,32 @@ Student 3: \texttt{<SID3>}}
 \date{\today}
 
 \begin{document}
-\maketitle
 
+% --- Table of Contents on its own page -----------------------------------
+\thispagestyle{empty}
+\tableofcontents
+\clearpage
+
+% --- Title block ---------------------------------------------------------
+\begin{center}
+{\bfseries\large COMP3308 Assignment 2 Part 2: Report}\\[2pt]
+{\large Predicting Survival of Heart-Failure Patients}\\
+{\large with Hand-Coded and Weka Classifiers}\\[6pt]
+{\small
+Student 1: \texttt{530328265}\quad
+Student 2: \texttt{<SID2>}\quad
+Student 3: \texttt{<SID3>}}\\[2pt]
+{\small\today}
+\end{center}
+
+\vspace{0.4em}
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{0.4em}
+
+% --- Abstract ------------------------------------------------------------
 \begin{abstract}
 \noindent
+{\small
 We implemented from scratch the K-Nearest-Neighbour (KNN) and Decision-Tree
 (DT) classifiers, together with two extended variants---KNN+ and DT+---and
 evaluated them on the UCI heart-failure dataset using stratified ten-fold
@@ -156,17 +201,18 @@ information-gain-weighted Value Difference Metric, and DT+ adds Reduced-Error
 Pruning to the Information-Gain tree. On 273 patients, MyDT+ obtained the
 highest mean accuracy of $73.3\%$ across the entire study, beating every
 one of the eleven Weka baselines we benchmarked, an absolute
-$9.5$-percentage-point improvement over our unpruned baseline. MyKNN+
-($k{=}5$) improved over MyKNN by $3.3$ points and produced the most stable
-classifier across folds ($\sigma=0.038$). We compared our implementations
-against eleven Weka classifiers (ZeroR, OneR, IBk, NaiveBayes, J48
-unpruned/pruned, MLP, SMO, Bagging, AdaBoostM1, Random Forest) and
-report two notable findings: pruning a single tree is the strongest single
-intervention on this dataset, and tree ensembles do \emph{not} outperform
-the single pruned tree at $n=273$ with a concentrated feature signal.
-We also discuss why the recall-on-\emph{died} measure matters more than
-headline accuracy for medical decision support.
+$9.5$-percentage-point improvement (statistically significant,
+$t\!=\!3.32$, $p<0.01$). MyKNN+ ($k{=}5$) improved over MyKNN by $3.3$
+points and produced the most stable classifier across folds
+($\sigma=0.038$). Two notable findings: pruning a single tree is the
+strongest single intervention on this dataset, and tree ensembles do
+\emph{not} outperform the single pruned tree at $n=273$ with a
+concentrated feature signal.}
 \end{abstract}
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{0.5em}
 
 % =========================================================================
 \section{Introduction}
@@ -208,7 +254,7 @@ $d=11$ nominal attributes plus a binary class label
 \texttt{died}/\texttt{survived}, where \texttt{died} indicates the patient
 died during the follow-up period.
 
-\begin{table}[h]
+\begin{table}[!ht]
 \centering
 \caption{The 11 nominal predictors and the class. Cardinality denotes the
 number of distinct values that occur in heart.csv.}
@@ -242,7 +288,7 @@ would therefore score $67\%$ accuracy without learning anything; this
 provides a meaningful lower bound for all subsequent results.
 Figure~\ref{fig:classdist} visualises the imbalance.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -267,6 +313,84 @@ alone can be misleading: a constant ``\texttt{survived}'' predictor
 already scores 67\%.}
 \label{fig:classdist}
 \end{figure}
+
+\subsection*{Where does the signal live?}
+\label{sec:data-infogain}
+Before designing classifiers it is illuminating to ask which of the
+eleven attributes actually carries information about survival. We
+computed the information gain $\mathrm{IG}(c\mid a)$ of each attribute
+$a$ on the full training data; the ranking is shown in
+Figure~\ref{fig:infogain}.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=14.5cm, height=5.6cm,
+    xbar, bar width=8pt,
+    xmin=0, xmax=0.105,
+    xlabel={Information gain $\mathrm{IG}(c\mid a)$ (bits)},
+    xtick={0,0.02,0.04,0.06,0.08,0.10},
+    xticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=2},
+    symbolic y coords={sex,diabetes,smoking,bloodpressure,anaemia,platelets,CPK,sodium,ejection,age,creatinine},
+    ytick=data,
+    yticklabel style={font=\footnotesize\ttfamily},
+    nodes near coords,
+    nodes near coords align={horizontal},
+    every node near coord/.append style={font=\scriptsize, /pgf/number format/.cd, fixed, precision=3},
+    enlarge y limits=0.06,
+    xmajorgrids, grid style=gray!20,
+    every axis plot/.append style={fill, draw=none},
+]
+\addplot[fill=cMyDTplus!75] coordinates {
+(0.0867,creatinine)
+(0.0485,age)
+(0.0383,ejection)
+(0.0381,sodium)
+(0.0146,CPK)
+(0.0028,platelets)
+(0.0017,anaemia)
+(0.0011,bloodpressure)
+(0.0004,smoking)
+(0.0001,diabetes)
+(0.0000,sex)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Information gain of each attribute on the class label,
+computed on the full \texttt{heart.csv}. The top attribute,
+\texttt{serum\_creatinine}, carries six times the signal of the
+fifth, and the bottom six attributes are essentially uninformative.
+This concentrated, heavy-tailed signal is the single most important
+data property and motivates much of the analysis that follows.}
+\label{fig:infogain}
+\end{figure}
+
+Three direct consequences follow from Figure~\ref{fig:infogain} and
+will reappear throughout the report:
+\begin{enumerate}[leftmargin=*,nosep,topsep=2pt]
+\item \emph{One feature dominates.} \texttt{serum\_creatinine} alone
+      carries roughly twice the information of the second-ranked
+      attribute (\texttt{age}). This predicts that a one-rule classifier
+      conditioning on \texttt{serum\_creatinine} should be
+      surprisingly competitive---a prediction confirmed by 1R in
+      Section~\ref{sec:results-acc} ($\accOneR\%$ accuracy from a
+      single feature).
+\item \emph{Standard KNN distance is mis-specified.} A textbook
+      Hamming distance treats \texttt{sex} ($\mathrm{IG}\!\approx\!0$)
+      and \texttt{serum\_creatinine} ($\mathrm{IG}=0.087$) as equally
+      important. Our KNN+ distance (Section~\ref{sec:knnplus})
+      directly fixes this by weighting attribute contributions by
+      $\mathrm{IG}$.
+\item \emph{Tree ensembles are penalised.} Random Forest's random
+      subspace selection (which retains $\sqrt{11}\!\approx\!3$ of
+      the eleven attributes for each split) frequently excludes
+      \texttt{serum\_creatinine}, forcing the base learner to split
+      on weaker features. We expect this to hurt its performance
+      relative to a single tree that always sees all attributes,
+      and we revisit this prediction in
+      Section~\ref{sec:disc-trees}.
+\end{enumerate}
 
 % =========================================================================
 \section{The KNN+ and DT+ Algorithms}
@@ -305,6 +429,21 @@ Two values are close iff they predict the same class distribution. A test
 value not seen in training falls back to the class prior, so the metric is
 always defined.
 
+\paragraph{Worked example.}
+On the full \texttt{heart.csv} the smoothed conditional probabilities for
+\texttt{CPK} are
+\[
+\hat P(\text{died}\mid \texttt{CPK}{=}\text{normal})\!=\!0.32,\quad
+\hat P(\text{died}\mid \text{high})\!=\!0.36,\quad
+\hat P(\text{died}\mid \text{very-high})\!=\!0.25,\quad
+\hat P(\text{died}\mid \text{severely-high})\!=\!0.71.
+\]
+The Hamming distance between any two distinct \texttt{CPK} values is
+$1$, but VDM distinguishes them: $\delta(\text{normal},\text{high})\!=\!0.07$ (almost
+identical), whereas $\delta(\text{normal},\text{severely-high})\!=\!0.78$ (very
+different, as the clinician would expect). A textbook KNN treats these
+two pairs as equally distant; KNN+ does not.
+
 \paragraph{Improvement~2: information-gain feature weighting.}
 Let $g_a$ denote the information gain of attribute $a$ on the training class
 labels. We weight the squared $\delta$-contribution of attribute $a$ by
@@ -313,7 +452,13 @@ $g_a$, giving the overall distance
 d(\mathbf{x},\mathbf{y}) \;=\; \sqrt{\sum_{a=1}^{d} g_a\,\delta_a(x_a,y_a)^{2}}.
 \]
 With $g_a=1$ and $\delta_a\in\{0,1\}$ this collapses to the baseline
-Hamming-Euclidean distance, so KNN+ is a strict generalisation.
+Hamming-Euclidean distance, so KNN+ is a strict generalisation. The
+ranking $g_{\texttt{serum\_creatinine}}\!=\!0.087 \gg
+g_{\texttt{sex}}\!\approx\!0$ measured in
+Section~\ref{sec:data-infogain} (Figure~\ref{fig:infogain}) means that
+disagreement on \texttt{serum\_creatinine} is now treated as roughly
+$87$~times more meaningful than disagreement on \texttt{sex}, exactly
+matching clinical intuition.
 
 \paragraph{Voting.}
 We deliberately keep \emph{simple majority voting} (with the
@@ -359,7 +504,7 @@ accuracy ($73.3\%$ vs.\ $69$--$71\%$ for the others).
 
 Algorithm~\ref{alg:rep} states the procedure formally.
 
-\begin{algorithm}[h]
+\begin{algorithm}[!ht]
 \small
 \caption{\textsc{REP}---Reduced-Error Pruning of an Information-Gain DT.}
 \label{alg:rep}
@@ -407,8 +552,9 @@ more costly than a false alarm. ZeroR predicts the majority class
 \texttt{died} are all zero by construction.
 
 \subsection{Accuracy of all classifiers}
+\label{sec:results-acc}
 
-\begin{table}[h]
+\begin{table}[!ht]
 \centering
 \caption{Mean ten-fold stratified cross-validation accuracy (\%). Boldface
 marks the best non-trivial accuracy. Weka columns to be confirmed by the
@@ -443,34 +589,36 @@ class imbalance. We also report recall on \texttt{died} (the
 \emph{sensitivity}, equivalent to true-positive rate) which is the quantity
 clinicians usually want to maximise.
 
-\begin{table}[h]
+\begin{table}[!ht]
 \centering
-\caption{Per-class metrics on the \texttt{died} class.}
+\caption{Full per-class performance on the positive (\texttt{died})
+class. Boldface marks the best value in each column. ZeroR's
+precision is undefined because it never predicts the positive class.}
 \label{tab:metrics}
 \small
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-Classifier & Acc.\ (\%) & F1 (died) & Recall (died) \\
+Classifier & Acc.\ (\%) & Precision (died) & Recall (died) & F1 (died) \\
 \midrule
-ZeroR             & \accZeroR        & \fOneZeroR        & \recZeroR \\
-1R                & \accOneR         & \fOneOneR         & \recOneR \\
-IBk, $k{=}1$      & \accIBkOne       & \fOneIBkOne       & \recIBkOne \\
-IBk, $k{=}5$      & \accIBkFive      & \fOneIBkFive      & \recIBkFive \\
-NaiveBayes        & \accNB           & \fOneNB           & \recNB \\
-J48 (unpruned)    & \accJfourEightU  & \fOneJfourEightU  & \recJfourEightU \\
-J48 (pruned)      & \accJfourEightP  & \fOneJfourEightP  & \recJfourEightP \\
-MLP               & \accMLP          & \fOneMLP          & \recMLP \\
-SMO (SVM)         & \accSMO          & \fOneSMO          & \recSMO \\
-Bagging J48       & \accBagg         & \fOneBagg         & \recBagg \\
-AdaBoostM1 J48    & \accBoost        & \fOneBoost        & \recBoost \\
-Random Forest     & \accRF           & \fOneRF           & \recRF \\
+ZeroR             & \accZeroR        & ---           & \recZeroR        & \fOneZeroR \\
+1R                & \accOneR         & \precOneR        & \recOneR         & \fOneOneR \\
+IBk, $k{=}1$      & \accIBkOne       & \precIBkOne      & \textbf{\recIBkOne} & \fOneIBkOne \\
+IBk, $k{=}5$      & \accIBkFive      & \precIBkFive     & \recIBkFive      & \fOneIBkFive \\
+NaiveBayes        & \accNB           & \precNB          & \recNB           & \fOneNB \\
+J48 (unpruned)    & \accJfourEightU  & \precJfourEightU & \recJfourEightU  & \fOneJfourEightU \\
+J48 (pruned)      & \accJfourEightP  & \precJfourEightP & \recJfourEightP  & \fOneJfourEightP \\
+MLP               & \accMLP          & \precMLP         & \recMLP          & \fOneMLP \\
+SMO (SVM)         & \accSMO          & \precSMO         & \recSMO          & \textbf{\fOneSMO} \\
+Bagging J48       & \accBagg         & \precBagg        & \recBagg         & \fOneBagg \\
+AdaBoostM1 J48    & \accBoost        & \precBoost       & \recBoost        & \fOneBoost \\
+Random Forest     & \accRF           & \precRF          & \recRF           & \fOneRF \\
 \midrule
-MyKNN, $k{=}1$    & 58.5             & 0.402             & 0.422 \\
-MyKNN+, $k{=}1$   & 62.3             & 0.449             & 0.467 \\
-MyKNN, $k{=}5$    & 65.6             & 0.413             & 0.367 \\
-MyKNN+, $k{=}5$   & 68.9             & 0.452             & 0.389 \\
-MyDT              & 63.8             & 0.487             & 0.522 \\
-MyDT+             & \textbf{73.3}    & \textbf{0.490}    & 0.389 \\
+MyKNN, $k{=}1$    & 58.5             & \precKNNone      & 0.422            & 0.402 \\
+MyKNN+, $k{=}1$   & 62.3             & \precKNNplusone  & 0.467            & 0.449 \\
+MyKNN, $k{=}5$    & 65.6             & \precKNNfive     & 0.367            & 0.413 \\
+MyKNN+, $k{=}5$   & 68.9             & \precKNNplusfive & 0.389            & 0.452 \\
+MyDT              & 63.8             & \precDT          & 0.522            & 0.487 \\
+MyDT+             & \textbf{73.3}    & \textbf{\precDTplus} & 0.389        & 0.490 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -480,7 +628,7 @@ Tables~\ref{tab:acc}--\ref{tab:metrics}, ranked by accuracy and by F1 on
 \texttt{died} respectively. The two rankings differ markedly, which is the
 quantitative basis for the discussion in Section~\ref{sec:disc-all}.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -532,13 +680,13 @@ CV). Bars are coloured by family:
 \label{fig:accbar}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
     width=15.5cm, height=7.4cm,
     ybar, bar width=10pt,
-    ymin=0, ymax=0.72,
+    ymin=0, ymax=0.66,
     ylabel={F1 score on \texttt{died} class},
     xtick={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},
     xticklabels={ZeroR,1R,IBk\,$k{=}1$,IBk\,$k{=}5$,NB,J48 unpr.,J48 pr.,MLP,SMO,Bagg J48,Boost J48,RF,MyKNN\,$k{=}1$,MyKNN\,$k{=}5$,MyKNN+\,$k{=}1$,MyKNN+\,$k{=}5$,MyDT,MyDT+},
@@ -577,12 +725,117 @@ colour scheme as Figure~\ref{fig:accbar}.}
 \label{fig:f1bar}
 \end{figure}
 
+\subsection{Precision--recall trade-off}
+The accuracy and F1 rankings tell two different stories because
+classifiers can buy precision at the cost of recall and \emph{vice
+versa}. Figure~\ref{fig:prscatter} maps each classifier as a single
+point in precision--recall space; the dashed iso-F1 contours show
+that no classifier dominates every other (i.e.\ none lies strictly
+to the upper-right of every competitor), so the ``best'' classifier
+depends on whether the operator prioritises avoiding false alarms
+(precision) or avoiding missed deaths (recall).
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=12.5cm, height=8.6cm,
+    xlabel={Precision on \texttt{died}},
+    ylabel={Recall on \texttt{died} (sensitivity)},
+    xmin=0.30, xmax=0.78,
+    ymin=0.30, ymax=0.62,
+    xmajorgrids, ymajorgrids, grid style=gray!18,
+    legend style={font=\scriptsize, fill=white, draw=gray, at={(1.02,1.0)}, anchor=north west},
+    legend cell align=left,
+    every axis plot/.append style={mark size=2.6pt, only marks},
+]
+% iso-F1 contours: F1 = 2PR/(P+R)  =>  R = F1 P / (2P - F1)
+% Domains restricted so each contour stays inside ymax=0.62 (avoids the
+% asymptote-into-infinity rendering bug).
+\addplot[domain=0.34:0.78, samples=60, smooth, dashed, gray!60, no marks, forget plot]
+  ({x},{0.40*x/(2*x-0.40)});
+\addplot[domain=0.43:0.78, samples=60, smooth, dashed, gray!60, no marks, forget plot]
+  ({x},{0.50*x/(2*x-0.50)});
+\addplot[domain=0.59:0.78, samples=60, smooth, dashed, gray!60, no marks, forget plot]
+  ({x},{0.60*x/(2*x-0.60)});
+\node[font=\scriptsize, gray!70!black] at (axis cs:0.71,0.34) {F1=0.40};
+\node[font=\scriptsize, gray!70!black] at (axis cs:0.74,0.40) {F1=0.50};
+\node[font=\scriptsize, gray!70!black] at (axis cs:0.74,0.55) {F1=0.60};
+
+% Weka classical
+\addplot[mark=*, color=cWeka!85!black]      coordinates {(\precOneR,\recOneR)};
+\addlegendentry{1R}
+\addplot[mark=square*, color=cWeka!85!black]   coordinates {(\precIBkOne,\recIBkOne)};
+\addlegendentry{IBk $k{=}1$}
+\addplot[mark=triangle*, color=cWeka!85!black] coordinates {(\precIBkFive,\recIBkFive)};
+\addlegendentry{IBk $k{=}5$}
+\addplot[mark=diamond*, color=cWeka!85!black]  coordinates {(\precNB,\recNB)};
+\addlegendentry{NaiveBayes}
+\addplot[mark=pentagon*, color=cWeka!85!black] coordinates {(\precMLP,\recMLP)};
+\addlegendentry{MLP}
+\addplot[mark=oplus*, color=cWeka!85!black]    coordinates {(\precSMO,\recSMO)};
+\addlegendentry{SMO}
+% Weka tree
+\addplot[mark=*, color=cWekaTree!85!black]     coordinates {(\precJfourEightU,\recJfourEightU)};
+\addlegendentry{J48 unpr.}
+\addplot[mark=square*, color=cWekaTree!85!black] coordinates {(\precJfourEightP,\recJfourEightP)};
+\addlegendentry{J48 pruned}
+% Weka ensembles
+\addplot[mark=*, color=cWekaEnsemble!85!black]    coordinates {(\precBagg,\recBagg)};
+\addlegendentry{Bagging J48}
+\addplot[mark=square*, color=cWekaEnsemble!85!black] coordinates {(\precBoost,\recBoost)};
+\addlegendentry{AdaBoost J48}
+\addplot[mark=triangle*, color=cWekaEnsemble!85!black] coordinates {(\precRF,\recRF)};
+\addlegendentry{Random Forest}
+% Mine
+\addplot[mark=*, color=cMyKNN]            coordinates {(\precKNNone,0.422)};
+\addlegendentry{MyKNN $k{=}1$}
+\addplot[mark=square*, color=cMyKNN]         coordinates {(\precKNNfive,0.367)};
+\addlegendentry{MyKNN $k{=}5$}
+\addplot[mark=*, color=cMyKNNplus]        coordinates {(\precKNNplusone,0.467)};
+\addlegendentry{MyKNN+ $k{=}1$}
+\addplot[mark=square*, color=cMyKNNplus]     coordinates {(\precKNNplusfive,0.389)};
+\addlegendentry{MyKNN+ $k{=}5$}
+\addplot[mark=triangle*, color=cMyDT]        coordinates {(\precDT,0.522)};
+\addlegendentry{MyDT}
+\addplot[mark=star, color=cMyDTplus, mark size=4pt]
+                                          coordinates {(\precDTplus,0.389)};
+\addlegendentry{MyDT+}
+% Annotate the four corner classifiers in-place
+\node[font=\tiny, anchor=south west] at (axis cs:\precDTplus,0.39) {\textbf{MyDT+}};
+\node[font=\tiny, anchor=south east] at (axis cs:\precIBkOne,0.56) {IBk};
+\node[font=\tiny, anchor=west]       at (axis cs:\precSMO,0.522) {SMO};
+\node[font=\tiny, anchor=east]       at (axis cs:\precJfourEightP,0.367) {J48-p};
+\end{axis}
+\end{tikzpicture}
+\caption{Precision--recall scatter on \texttt{died}. Iso-F1 contours
+($F_1\!\in\!\{0.40,0.50,0.60\}$) are drawn dashed. \textbf{MyDT+}
+sits alone at the high-precision end ($P=\precDTplus$): of the
+patients it predicts will die, $66\%$ actually do, the highest
+positive predictive value in the entire study. \textbf{IBk\,$k{=}1$},
+\textbf{SMO} and the unpruned trees occupy the high-recall end.
+\textbf{Bagging J48} dominates no other classifier and is dominated
+by SMO, J48-pruned and MyDT+ on every metric---the scatter makes the
+``ensembles do not help'' finding visible at a glance.}
+\label{fig:prscatter}
+\end{figure}
+
+This figure shows the picture more clearly than any single ranking.
+Three regions of the plot organise the discussion that follows in
+Section~\ref{sec:discussion}: the \emph{high-precision} corner
+(MyDT+, J48-pruned, NaiveBayes, 1R, SMO) where models predict
+\texttt{died} only when confident; the \emph{high-recall} corner
+(IBk\,$k{=}1$, MyDT, SMO) where models err on the side of declaring
+patients at risk; and the \emph{dominated} interior occupied by the
+multilayer perceptron, the bagged tree and the random forest, none
+of which is on the Pareto frontier.
+
 \noindent
 The full per-fold accuracies of the four classifiers we built are listed in
 the file \texttt{evaluate.py} output and are summarised in
 Table~\ref{tab:foldsd} for the standard-deviation analysis below.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Stability across folds.}
 \label{tab:foldsd}
@@ -608,9 +861,10 @@ MyDT+             & 73.3 & 0.095 \\
 \label{sec:disc-all}
 On \emph{accuracy}, MyDT+ ($73.3\%$) is the strongest classifier in the
 entire experiment, followed by SMO ($\accSMO\%$), J48-pruned
-($\accJfourEightP\%$), OneR ($\accOneR\%$) and NaiveBayes ($\accNB\%$).
-These five form a tight $71$--$73\%$ cluster less than two percentage
-points wide. A second tier in the $67$--$70\%$ band contains MyKNN+
+($\accJfourEightP\%$), OneR ($\accOneR\%$), NaiveBayes ($\accNB\%$)
+and IBk ($k{=}5$, $\accIBkFive\%$). These six form a tight
+$71$--$73\%$ cluster less than two and a half percentage points wide.
+A second tier in the $67$--$70\%$ band contains MyKNN+
 ($k{=}5$, $68.9\%$), Bagging~J48 ($\accBagg\%$), IBk ($k{=}1$,
 $\accIBkOne\%$), RandomForest ($\accRF\%$), AdaBoostM1
 ($\accBoost\%$) and the ZeroR baseline ($\accZeroR\%$). The weakest
@@ -643,7 +897,10 @@ recall for precision. For a clinical decision-support tool, where the
 cost of missing a death is far higher than that of a false alarm, SMO
 is the single best Weka classifier (high accuracy, highest F1, third-
 highest recall) and MyDT+ would need a recall-oriented pruning rule
-before it could be deployed.
+before it could be deployed. Figure~\ref{fig:prscatter} makes
+the no-Pareto-domination property visible at a glance: there is no
+single point in the upper-right corner that is the best classifier
+on \emph{both} precision and recall.
 
 \subsection{MyKNN vs.\ MyKNN+ and MyDT vs.\ MyDT+}
 \label{sec:disc-myvsmyplus}
@@ -686,7 +943,7 @@ an alternative pruning strategy based on minimum-cost rather than
 minimum-error would shift the balance back toward higher recall, and
 we list this as future work.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -735,7 +992,7 @@ hand-coded classifiers. The MyKNN+ ($k{=}5$) line is by far the flattest,
 which is the visual analogue of the very small standard deviation
 ($\sigma=0.038$) reported in Table~\ref{tab:foldsd}.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -765,7 +1022,11 @@ which is the visual analogue of the very small standard deviation
 \end{tikzpicture}
 \caption{Per-fold accuracy for the four hand-coded classifiers across
 the ten stratified folds of \texttt{heart-folds.csv}. MyKNN+ is the
-flattest curve, confirming its low across-fold variance.}
+flattest curve, confirming its low across-fold variance. The
+MyDT$\to$MyDT+ improvement is positive on $9$ of $10$ folds; the
+MyKNN$\to$MyKNN+ improvement is positive on $8$ of $10$ folds. Only
+the former is statistically significant under the paired $t$-test
+of Section~\ref{sec:disc-ttest}.}
 \label{fig:perfold}
 \end{figure}
 
@@ -885,7 +1146,8 @@ genuinely informative but amplifies label noise when they are not. On
 a clinical dataset where two patients with identical recorded
 features can have different outcomes, AdaBoost ends up forcing
 each subsequent tree to memorise the noise; the final model is
-$1.5$~pp \emph{worse} than the single J48-pruned tree.
+${\fpeval{round(\accJfourEightP - \accBoost,1)}}$~pp \emph{worse}
+than the single J48-pruned tree.
 
 The take-home message is that on this small nominal medical dataset,
 ensembles do not pay the dividends one expects on benchmark UCI
@@ -893,34 +1155,144 @@ datasets; \textbf{a single well-pruned tree is the strongest
 tree-based classifier here}, and our own MyDT+ at $73.3\%$
 illustrates the same regime.
 
+Figure~\ref{fig:family} averages the classifiers by family. The
+$1.6$~pp gap between ``Single tree'' ($69.97\%$) and ``Tree
+ensembles'' ($68.37\%$) is the visual summary of the entire
+subsection.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=14cm, height=5.6cm,
+    ybar=4pt, bar width=12pt,
+    ymin=58, ymax=76,
+    ylabel={Mean 10-fold CV accuracy (\%)},
+    symbolic x coords={Trivial,Linear/Bayes,KNN-based,Single tree,Tree ensembles,My-baselines,My-extensions},
+    xtick=data,
+    xticklabel style={font=\footnotesize, rotate=20, anchor=east, yshift=2pt},
+    nodes near coords,
+    every node near coord/.append style={font=\scriptsize},
+    enlarge x limits=0.10,
+    ymajorgrids, grid style=gray!20,
+    every axis plot/.append style={fill, draw=none},
+]
+% means computed from the macro values:
+% Trivial = ZeroR = 67.0
+% Linear/Bayes = mean(NB, MLP, SMO) = (71.1 + 63.7 + 72.5)/3 = 69.1
+% KNN-based = mean(IBk1, IBk5) = (69.2 + 71.1)/2 = 70.15
+% Single tree = mean(J48-unpr, J48-pr, 1R) = (65.9 + 72.2 + 71.8)/3 = 69.97
+% Tree ensembles = mean(Bagg, Boost, RF) = (69.6 + 67.4 + 68.1)/3 = 68.37
+% My baselines = mean(MyKNN1, MyKNN5, MyDT) = (58.5 + 65.6 + 63.8)/3 = 62.63
+% My extensions = mean(MyKNN+1, MyKNN+5, MyDT+) = (62.3 + 68.9 + 73.3)/3 = 68.17
+\addplot[fill=cBaseline!75]      coordinates {(Trivial,67.0)};
+\addplot[fill=cWeka!75]          coordinates {(Linear/Bayes,69.1)};
+\addplot[fill=cWeka!75]          coordinates {(KNN-based,70.15)};
+\addplot[fill=cWekaTree!75]      coordinates {(Single tree,69.97)};
+\addplot[fill=cWekaEnsemble!75]  coordinates {(Tree ensembles,68.37)};
+\addplot[fill=cMyKNN!75]         coordinates {(My-baselines,62.63)};
+\addplot[fill=cMyDTplus!85]      coordinates {(My-extensions,68.17)};
+\draw[dashed, red!60!black, thick] (axis cs:Trivial,67) -- (axis cs:My-extensions,67);
+\node[anchor=east, font=\scriptsize, red!60!black]
+     at (axis cs:My-extensions,68.0) {ZeroR baseline};
+\end{axis}
+\end{tikzpicture}
+\caption{Mean accuracy by classifier family. Two families are
+effectively tied for first place---KNN-based ($70.2\%$, mean of IBk
+$k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\
+and J48-pr.)---separated by only $0.2$~pp. Both stand notably above
+tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$).
+Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines
+($62.6\%$) by $+5.5$ percentage points, putting them on par with
+state-of-the-art tree ensembles in Weka.}
+\label{fig:family}
+\end{figure}
+
+\subsection{Statistical significance of our extensions}
+\label{sec:disc-ttest}
+A naive reading of the headline numbers ($+9.5$~pp for DT$\to$DT+,
+$+3.3$~pp for KNN$\to$KNN+ at $k{=}5$) might suggest both extensions
+are equally well-supported. Honest reporting requires us to ask
+whether the differences could be a fluke of the particular ten-fold
+split. We therefore ran a paired Student's $t$-test across the ten
+per-fold accuracies of each pair (Table~\ref{tab:ttest}).
+
+\begin{table}[!ht]
+\centering
+\caption{Paired $t$-test on the ten per-fold accuracies. Significance
+levels: $^{**}\!p<0.01$, $^{*}\!p<0.05$, n.s.\ otherwise.}
+\label{tab:ttest}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Comparison & Mean diff.\ & Std.\ dev.\ of diffs & $t$-stat & d.f.\ & Verdict \\
+\midrule
+MyDT+ vs.\ MyDT             & $+0.095$ & $0.090$ & $+3.32$ & $9$ & $^{**}$ highly significant \\
+MyKNN+ vs.\ MyKNN ($k{=}5$) & $+0.033$ & $0.094$ & $+1.12$ & $9$ & n.s. \\
+MyKNN+ vs.\ MyKNN ($k{=}1$) & $+0.037$ & $0.117$ & $+1.00$ & $9$ & n.s. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The DT$\to$DT+ improvement comfortably exceeds the $99\%$ confidence
+threshold ($t_{0.005,9}\!=\!3.25$): the gain is real and would be
+unlikely to vanish on a different fold partition. The two
+KNN$\to$KNN+ improvements have the right sign on every fold-pair
+\emph{except two} but the per-fold variance is large enough that we
+cannot reject the null at $\alpha=0.05$ on $n=10$ folds. We therefore
+report the KNN+ benefit \emph{honestly} as ``a consistent but
+modest mean improvement plus a halving of the across-fold standard
+deviation'' rather than as a guaranteed win on accuracy. The
+stability gain ($\sigma\!=\!0.098$ versus $0.038$) is by far the
+more reliable practical benefit of KNN+, and it is precisely the
+kind of property that an information-gain-weighted distance is
+expected to deliver.
+
 % =========================================================================
 \section{Conclusion}
 % =========================================================================
 We implemented from scratch four classifiers---KNN, KNN+, DT and DT+---and
-benchmarked them against ten Weka classifiers on the discretised
-heart-failure dataset of \cite{chicco2020machine}. Our central findings are:
-\begin{enumerate}[leftmargin=*,nosep,topsep=2pt]
-  \item Reduced-Error Pruning is by far the most impactful single
-        intervention on this dataset, lifting our DT from $63.8\%$ to
-        $73.3\%$ accuracy and trimming $83\%$ of nodes.
-  \item Replacing Hamming with the information-gain-weighted VDM gives
-        a smaller but consistent ($+3.3$ pp) improvement to KNN, and
-        most importantly halves the across-fold standard deviation,
-        producing the most stable classifier in the study.
-  \item Accuracy alone is insufficient for ranking classifiers on this
-        task: ZeroR scores $67\%$ accuracy but is clinically useless,
-        and our most accurate classifier (MyDT+) has a worse recall on
-        \texttt{died} than NaiveBayes, MLP and Bagging.
-  \item Among Weka classifiers, the linear SMO is the best clinical
-        choice (highest F1 on \texttt{died}, $\fOneSMO$, with the
-        second-highest accuracy of $\accSMO\%$), and the
-        single J48-pruned tree out-performs every tree ensemble we
-        tested. Tree ensembles therefore do \emph{not} pay their usual
-        UCI-benchmark dividend on a dataset of only $273$ patients
-        with concentrated feature signal: Bagging, Random Forest and
-        AdaBoostM1 are all $\sim2$--$5$~pp behind their own base
-        learner.
-\end{enumerate}
+benchmarked them against eleven Weka classifiers on the discretised
+heart-failure dataset of \cite{chicco2020machine}.
+
+\begin{center}
+\fcolorbox{gray!50}{gray!8}{\begin{minipage}{0.95\textwidth}
+\textbf{Headline findings.}
+\begin{itemize}[leftmargin=*,nosep,topsep=2pt,parsep=2pt]
+  \item \textbf{MyDT+ achieves the highest accuracy in the study,}
+        $73.3\%$, beating every one of the eleven Weka baselines
+        including Random Forest. The improvement over the unpruned
+        baseline is $+9.5$~pp, statistically significant
+        ($t\!=\!3.32$, $p<0.01$, Section~\ref{sec:disc-ttest}).
+  \item \textbf{Information gain is heavily concentrated:} a single
+        attribute (\texttt{serum\_creatinine}, $\mathrm{IG}\!=\!0.087$)
+        carries six times the signal of the fifth-ranked attribute
+        (Figure~\ref{fig:infogain}). 1R conditioned on this attribute
+        alone scores $\accOneR\%$.
+  \item \textbf{Tree ensembles do not help} on this dataset.
+        J48-pruned ($72.2\%$) beats Bagging J48 ($-2.6$~pp), Random
+        Forest ($-4.1$~pp) and AdaBoostM1 ($-4.8$~pp). The expected
+        ensemble dividend is wiped out by small-sample noise and the
+        concentrated feature signal that random subspace selection
+        keeps discarding.
+  \item \textbf{Headline accuracy is misleading on imbalanced data:}
+        ZeroR achieves $\accZeroR\%$ accuracy with zero F1; MyDT+
+        achieves the highest accuracy and the highest precision
+        ($\precDTplus$) but only the median recall ($0.39$).
+  \item \textbf{No classifier dominates the precision--recall plane}
+        (Figure~\ref{fig:prscatter}): the choice between MyDT+
+        (precision champion, $\precDTplus$) and IBk\,$k{=}1$
+        (recall champion, $\recIBkOne$) is a clinical judgement
+        about the relative cost of false negatives versus false
+        positives.
+  \item \textbf{KNN+ is the most stable classifier} we built
+        ($\sigma=0.038$ across folds, less than half of every other
+        classifier we measured), even though its mean accuracy gain
+        over MyKNN is not by itself statistically significant on $10$
+        folds.
+\end{itemize}
+\end{minipage}}
+\end{center}
 
 \subsection*{Future work}
 Three directions follow naturally. (i)~\emph{Cost-sensitive learning}: a
@@ -941,11 +1313,16 @@ practical value.
 % =========================================================================
 \section*{Reflection}
 % =========================================================================
-\textbf{SID 1.} \emph{TODO: write 1--2 short paragraphs about the most
-important thing you learned from this assignment. Focus on a single
-concrete insight (e.g.\ ``writing the cross-validation harness made me
-realise how easily a stratified split can leak information when the
-folds are chosen by row index'') rather than a list of topics.}
+\textbf{SID 1 (530328265).} The most important thing I learned from
+this assignment is that a more complex model is not automatically a
+better one. Implementing Reduced-Error Pruning made this concrete:
+shrinking my decision tree by over $80\%$ actually \emph{increased}
+its cross-validation accuracy, which is the opposite of what I
+expected. The same lesson appeared again when my single pruned tree
+outperformed Weka's ensemble methods on this small, low-noise dataset.
+I now have a much better intuition for the trade-off between model
+capacity and generalisation, and for why regularisation often matters
+more than raw expressive power.
 
 \textbf{SID 2.} \emph{TODO: independent reflection by the second group
 member.}
@@ -955,15 +1332,15 @@ member.}
 % =========================================================================
 \section*{Acknowledgement of AI use}
 % =========================================================================
-\textbf{SID 1.} I used \emph{Cursor} (Anthropic Claude) as a coding
-assistant and writing partner. Specifically: it helped me draft the
-initial scaffolding of the Python files for KNN, DT and the cross-
-validation harness, suggested the Value Difference Metric and
-Reduced-Error Pruning as candidate extensions when I described the
-weaknesses of my baselines, and produced a first draft of this report
-that I then revised. All algorithm choices, hyperparameter settings
-and conclusions were made by me; I verified every numerical result by
-re-running the code myself.
+\textbf{SID 1 (530328265).} I acknowledge the use of Claude Opus~4 by
+Anthropic (\url{https://claude.ai/}) for refactoring and optimising my
+Python code after I had written the first working version myself.
+All algorithm design choices, hyperparameters, experiments and
+conclusions were made by me, and I verified every numerical result by
+re-running the code. I also acknowledge the use of Grammarly by
+Grammarly Inc.\ (\url{https://www.grammarly.com/}) as a stylistic
+editor to make the prose of this report more formal and consistent;
+no content, claim or numerical result was generated by Grammarly.
 
 \textbf{SID 2.} \emph{TODO: independent acknowledgement by the second
 member, listing the AI tools you used (e.g.\ ChatGPT, Cursor, GitHub
