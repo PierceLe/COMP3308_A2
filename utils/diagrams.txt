@@ -1,0 +1,416 @@
+============================================================
+MyDT - Information Gain decision tree, NO pruning
+Trained on all 273 examples of heart.csv
+============================================================
+serum_creatinine = high
+  serum_sodium = normal
+    high_blood_pressure = no
+      diabetes = yes
+        age = [61-70]
+          -> died
+        age = [40-50]
+          smoking = yes
+            -> died
+          smoking = no
+            -> survived
+        age = [51-60]
+          sex = F
+            -> died
+          sex = M
+            -> survived
+        age = 70plus
+          -> died
+      diabetes = no
+        smoking = no
+          age = [40-50]
+            -> died
+          age = [51-60]
+            anaemia = yes
+              sex = M
+                -> died
+              sex = F
+                -> survived
+            anaemia = no
+              -> survived
+          age = [61-70]
+            ejection_fraction = normal
+              anaemia = no
+                -> died
+              anaemia = yes
+                -> survived
+            ejection_fraction = low
+              -> survived
+            ejection_fraction = mildly-low
+              -> survived
+          age = 70plus
+            CPK = high
+              -> died
+            CPK = normal
+              -> survived
+        smoking = yes
+          -> survived
+    high_blood_pressure = yes
+      age = [40-50]
+        -> died
+      age = [51-60]
+        anaemia = yes
+          sex = F
+            -> died
+          sex = M
+            -> survived
+        anaemia = no
+          -> survived
+      age = [61-70]
+        -> died
+      age = 70plus
+        -> died
+  serum_sodium = low
+    platelets = low
+      -> died
+    platelets = normal
+      ejection_fraction = mildly-low
+        CPK = high
+          -> died
+        CPK = normal
+          -> died
+        CPK = very-high
+          -> survived
+      ejection_fraction = low
+        age = [40-50]
+          sex = F
+            -> died
+          sex = M
+            -> survived
+        age = [51-60]
+          anaemia = yes
+            -> died
+          anaemia = no
+            diabetes = no
+              -> died
+            diabetes = yes
+              -> survived
+        age = [61-70]
+          diabetes = yes
+            -> died
+          diabetes = no
+            high_blood_pressure = yes
+              -> died
+            high_blood_pressure = no
+              -> survived
+        age = 70plus
+          diabetes = no
+            -> died
+          diabetes = yes
+            high_blood_pressure = yes
+              -> died
+            high_blood_pressure = no
+              -> survived
+      ejection_fraction = borderline
+        -> survived
+      ejection_fraction = normal
+        -> survived
+    platelets = very-high
+      -> died
+  serum_sodium = high
+    -> died
+serum_creatinine = normal
+  ejection_fraction = normal
+    age = [61-70]
+      high_blood_pressure = no
+        diabetes = no
+          anaemia = yes
+            -> died
+          anaemia = no
+            -> survived
+        diabetes = yes
+          -> survived
+      high_blood_pressure = yes
+        -> survived
+    age = [51-60]
+      CPK = high
+        diabetes = yes
+          -> died
+        diabetes = no
+          -> survived
+      CPK = normal
+        -> survived
+      CPK = very-high
+        -> survived
+    age = 70plus
+      -> died
+    age = [40-50]
+      -> survived
+  ejection_fraction = low
+    age = [61-70]
+      CPK = normal
+        high_blood_pressure = no
+          sex = F
+            -> died
+          sex = M
+            -> survived
+        high_blood_pressure = yes
+          -> survived
+      CPK = high
+        smoking = yes
+          high_blood_pressure = no
+            -> died
+          high_blood_pressure = yes
+            anaemia = no
+              -> survived
+            anaemia = yes
+              -> died
+        smoking = no
+          anaemia = yes
+            diabetes = no
+              high_blood_pressure = yes
+                sex = M
+                  -> died
+                sex = F
+                  -> survived
+              high_blood_pressure = no
+                -> survived
+            diabetes = yes
+              -> survived
+          anaemia = no
+            -> survived
+      CPK = very-high
+        -> survived
+    age = [40-50]
+      platelets = normal
+        high_blood_pressure = yes
+          CPK = high
+            diabetes = yes
+              -> survived
+            diabetes = no
+              -> died
+          CPK = normal
+            -> died
+          CPK = severely-high
+            -> died
+          CPK = very-high
+            -> survived
+        high_blood_pressure = no
+          CPK = high
+            smoking = no
+              diabetes = no
+                anaemia = no
+                  -> died
+                anaemia = yes
+                  -> survived
+              diabetes = yes
+                anaemia = yes
+                  -> died
+                anaemia = no
+                  -> survived
+            smoking = yes
+              -> survived
+          CPK = very-high
+            anaemia = no
+              smoking = no
+                -> died
+              smoking = yes
+                -> survived
+            anaemia = yes
+              -> survived
+          CPK = normal
+            -> survived
+          CPK = severely-high
+            -> survived
+      platelets = low
+        anaemia = yes
+          -> died
+        anaemia = no
+          -> survived
+      platelets = high
+        -> survived
+      platelets = very-high
+        -> survived
+    age = [51-60]
+      platelets = normal
+        CPK = normal
+          anaemia = yes
+            high_blood_pressure = no
+              serum_sodium = normal
+                -> died
+              serum_sodium = low
+                -> survived
+            high_blood_pressure = yes
+              -> survived
+          anaemia = no
+            -> survived
+        CPK = severely-high
+          -> died
+        CPK = very-high
+          serum_sodium = low
+            -> died
+          serum_sodium = normal
+            high_blood_pressure = no
+              sex = M
+                -> died
+              sex = F
+                -> survived
+            high_blood_pressure = yes
+              -> survived
+        CPK = high
+          anaemia = yes
+            -> died
+          anaemia = no
+            -> survived
+      platelets = high
+        CPK = high
+          -> died
+        CPK = normal
+          -> survived
+      platelets = low
+        -> survived
+      platelets = very-high
+        -> survived
+    age = 70plus
+      CPK = high
+        diabetes = no
+          sex = M
+            anaemia = yes
+              -> died
+            anaemia = no
+              serum_sodium = low
+                high_blood_pressure = no
+                  -> died
+                high_blood_pressure = yes
+                  -> survived
+              serum_sodium = normal
+                -> survived
+          sex = F
+            -> survived
+        diabetes = yes
+          anaemia = no
+            -> died
+          anaemia = yes
+            -> survived
+      CPK = normal
+        -> died
+      CPK = severely-high
+        -> died
+      CPK = very-high
+        -> survived
+  ejection_fraction = borderline
+    diabetes = no
+      CPK = high
+        platelets = normal
+          age = [40-50]
+            anaemia = no
+              -> died
+            anaemia = yes
+              -> survived
+          age = [61-70]
+            -> survived
+          age = 70plus
+            -> survived
+        platelets = low
+          -> died
+      CPK = normal
+        -> survived
+      CPK = very-high
+        -> survived
+    diabetes = yes
+      anaemia = no
+        age = [61-70]
+          CPK = normal
+            -> died
+          CPK = high
+            -> survived
+        age = 70plus
+          -> survived
+      anaemia = yes
+        -> died
+  ejection_fraction = mildly-low
+    high_blood_pressure = yes
+      age = [61-70]
+        anaemia = no
+          -> died
+        anaemia = yes
+          -> survived
+      age = 70plus
+        CPK = normal
+          -> died
+        CPK = very-high
+          -> survived
+        CPK = high
+          -> survived
+      age = [40-50]
+        -> survived
+      age = [51-60]
+        -> survived
+    high_blood_pressure = no
+      -> survived
+serum_creatinine = low
+  -> survived
+
+Total nodes : 215
+Leaves      : 128
+
+============================================================
+MyDT+ - Information Gain + Reduced-Error Pruning
+Grow set: 75% stratified slice of heart.csv (~205 examples)
+Prune set: remaining 25% (~68 examples)
+============================================================
+serum_creatinine = high
+  sex = M
+    age = [61-70]
+      diabetes = yes
+        -> died
+      diabetes = no
+        -> survived
+    age = [40-50]
+      serum_sodium = normal
+        CPK = high
+          diabetes = no
+            -> died
+          diabetes = yes
+            smoking = yes
+              -> died
+            smoking = no
+              -> survived
+        CPK = normal
+          anaemia = yes
+            -> died
+          anaemia = no
+            -> survived
+        CPK = very-high
+          -> survived
+      serum_sodium = low
+        -> survived
+    age = [51-60]
+      serum_sodium = low
+        diabetes = yes
+          CPK = normal
+            -> died
+          CPK = very-high
+            -> survived
+          CPK = high
+            -> survived
+        diabetes = no
+          -> died
+      serum_sodium = normal
+        CPK = normal
+          anaemia = yes
+            diabetes = no
+              -> died
+            diabetes = yes
+              -> survived
+          anaemia = no
+            -> survived
+        CPK = high
+          -> survived
+        CPK = very-high
+          -> survived
+    age = 70plus
+      -> died
+  sex = F
+    -> died
+serum_creatinine = normal
+  -> survived
+serum_creatinine = low
+  -> survived
+
+Total nodes : 37
+Leaves      : 22
