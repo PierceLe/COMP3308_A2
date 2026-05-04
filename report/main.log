@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.24)  5 MAY 2026 01:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.24)  5 MAY 2026 01:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1196,7 +1196,7 @@ ublic/cm-super/sftt0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pub
 lic/cm-super/sftt0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publi
 c/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/
 cm-super/sftt1095.pfb>
-Output written on main.pdf (25 pages, 700128 bytes).
+Output written on main.pdf (25 pages, 700105 bytes).
 PDF statistics:
  1329 PDF objects out of 1440 (max. 8388607)
  1219 compressed objects within 13 object streams

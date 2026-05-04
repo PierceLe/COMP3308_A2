@@ -194,8 +194,8 @@ Student 3: \texttt{<SID3>}}\\[2pt]
 \noindent
 {\small
 We implemented from scratch the K-Nearest-Neighbour (KNN) and Decision-Tree
-(DT) classifiers, together with two extended variants---KNN+ and DT+---and
-evaluated them on the UCI heart-failure dataset using stratified ten-fold
+(DT) classifiers, together with two extended variants (KNN+ and DT+),
+and evaluated them on the UCI heart-failure dataset using stratified ten-fold
 cross-validation. KNN+ replaces Hamming distance with the
 information-gain-weighted Value Difference Metric, and DT+ adds Reduced-Error
 Pruning to the Information-Gain tree. On 273 patients, MyDT+ obtained the
@@ -373,7 +373,7 @@ will reappear throughout the report:
       carries roughly twice the information of the second-ranked
       attribute (\texttt{age}). This predicts that a one-rule classifier
       conditioning on \texttt{serum\_creatinine} should be
-      surprisingly competitive---a prediction confirmed by 1R in
+      surprisingly competitive, a prediction confirmed by 1R in
       Section~\ref{sec:results-acc} ($\accOneR\%$ accuracy from a
       single feature).
 \item \emph{Standard KNN distance is mis-specified.} A textbook
@@ -506,7 +506,7 @@ Algorithm~\ref{alg:rep} states the procedure formally.
 
 \begin{algorithm}[!ht]
 \small
-\caption{\textsc{REP}---Reduced-Error Pruning of an Information-Gain DT.}
+\caption{\textsc{REP}: Reduced-Error Pruning of an Information-Gain DT.}
 \label{alg:rep}
 \begin{algorithmic}[1]
 \Require Tree $T$, prune set $P$
@@ -815,7 +815,7 @@ patients it predicts will die, $66\%$ actually do, the highest
 positive predictive value in the entire study. \textbf{IBk\,$k{=}1$},
 \textbf{SMO} and the unpruned trees occupy the high-recall end.
 \textbf{Bagging J48} dominates no other classifier and is dominated
-by SMO, J48-pruned and MyDT+ on every metric---the scatter makes the
+by SMO, J48-pruned and MyDT+ on every metric; the scatter makes the
 ``ensembles do not help'' finding visible at a glance.}
 \label{fig:prscatter}
 \end{figure}
@@ -933,7 +933,7 @@ For DT, the effect of Reduced-Error Pruning is far stronger. Mean
 accuracy rises from $63.8\%$ to $73.3\%$ ($+9.5$ pp); precision on
 \texttt{died} rises from $0.46$ to $0.66$; and the tree shrinks from
 $215$ nodes (Appendix~\ref{app:dt-tree}) to $37$ nodes (Appendix
-\ref{app:dt-plus-tree})---a $83\%$ reduction in model complexity, see
+\ref{app:dt-plus-tree}), a $83\%$ reduction in model complexity, see
 Figure~\ref{fig:dtcompare}. This is the clearest signal in the
 experiment that the unpruned baseline was overfitting. The only metric
 that drops is recall on \texttt{died}, from $0.52$ to $0.39$, because
@@ -1042,7 +1042,7 @@ distance regardless of $v$, whereas our pure Hamming metric weights
 all attributes uniformly. The net effect is that IBk implicitly
 upweights high-cardinality attributes such as \texttt{age} (4
 categories), \texttt{CPK} (4) and \texttt{ejection\_fraction} (4),
-which happen to be the most predictive features---a happy accident
+which happen to be the most predictive features, a happy accident
 that the textbook Hamming metric does not exploit. After we add the
 information-gain-weighted VDM, MyKNN+ ($k{=}5$) at $68.9\%$ closes
 most of this gap and is essentially tied with the strongest IBk
@@ -1198,9 +1198,9 @@ subsection.
 \end{axis}
 \end{tikzpicture}
 \caption{Mean accuracy by classifier family. Two families are
-effectively tied for first place---KNN-based ($70.2\%$, mean of IBk
+effectively tied for first place: KNN-based ($70.2\%$, mean of IBk
 $k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\
-and J48-pr.)---separated by only $0.2$~pp. Both stand notably above
+and J48-pr.), separated by only $0.2$~pp. Both stand notably above
 tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$).
 Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines
 ($62.6\%$) by $+5.5$ percentage points, putting them on par with
@@ -1251,7 +1251,7 @@ expected to deliver.
 % =========================================================================
 \section{Conclusion}
 % =========================================================================
-We implemented from scratch four classifiers---KNN, KNN+, DT and DT+---and
+We implemented from scratch four classifiers (KNN, KNN+, DT and DT+) and
 benchmarked them against eleven Weka classifiers on the discretised
 heart-failure dataset of \cite{chicco2020machine}.
 
