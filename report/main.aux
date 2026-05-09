@@ -36,8 +36,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental setup}{6}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Accuracy of all classifiers}{6}{subsection.4.2}\protected@file@percent }
 \newlabel{sec:results-acc}{{4.2}{6}{Accuracy of all classifiers}{subsection.4.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Mean ten-fold stratified cross-validation accuracy (\%). Boldface marks the best non-trivial accuracy. Weka columns to be confirmed by the group after running Weka on \texttt  {heart.csv} with the default settings described in the assignment.}}{6}{table.caption.4}\protected@file@percent }
-\newlabel{tab:acc}{{2}{6}{Mean ten-fold stratified cross-validation accuracy (\%). Boldface marks the best non-trivial accuracy. Weka columns to be confirmed by the group after running Weka on \texttt {heart.csv} with the default settings described in the assignment}{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Mean ten-fold stratified cross-validation accuracy (\%).}}{6}{table.caption.4}\protected@file@percent }
+\newlabel{tab:acc}{{2}{6}{Mean ten-fold stratified cross-validation accuracy (\%)}{table.caption.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Additional performance measures}{6}{subsection.4.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Full per-class performance on the positive (\texttt  {died}) class. Boldface marks the best value in each column. ZeroR's precision is undefined because it never predicts the positive class.}}{7}{table.caption.5}\protected@file@percent }
 \newlabel{tab:metrics}{{3}{7}{Full per-class performance on the positive (\texttt {died}) class. Boldface marks the best value in each column. ZeroR's precision is undefined because it never predicts the positive class}{table.caption.5}{}}
@@ -61,22 +61,22 @@
 \newlabel{fig:dtcompare}{{6}{10}{Reduced-Error Pruning shrinks the tree by $83\%$ (left) while \emph {simultaneously} raising mean cross-validation accuracy by $9.5$ percentage points (right). The unpruned baseline was overfitting noise into its leaves}{figure.caption.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}My classifiers vs.\ Weka's}{10}{subsection.5.3}\protected@file@percent }
 \newlabel{sec:disc-vs-weka}{{5.3}{10}{My classifiers vs.\ Weka's}{subsection.5.3}{}}
-\citation{dietterich2000experimental}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Per-fold accuracy for the four hand-coded classifiers across the ten stratified folds of \texttt  {heart-folds.csv}. MyKNN+ is the flattest curve, confirming its low across-fold variance. The MyDT$\to $MyDT+ improvement is positive on $9$ of $10$ folds; the MyKNN$\to $MyKNN+ improvement is positive on $8$ of $10$ folds. Only the former is statistically significant under the paired $t$-test of Section~\ref {sec:disc-ttest}.}}{11}{figure.caption.11}\protected@file@percent }
 \newlabel{fig:perfold}{{7}{11}{Per-fold accuracy for the four hand-coded classifiers across the ten stratified folds of \texttt {heart-folds.csv}. MyKNN+ is the flattest curve, confirming its low across-fold variance. The MyDT$\to $MyDT+ improvement is positive on $9$ of $10$ folds; the MyKNN$\to $MyKNN+ improvement is positive on $8$ of $10$ folds. Only the former is statistically significant under the paired $t$-test of Section~\ref {sec:disc-ttest}}{figure.caption.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}J48-unpruned vs.\ J48-pruned: the effect of pruning}{11}{subsection.5.4}\protected@file@percent }
 \newlabel{sec:disc-pruning}{{5.4}{11}{J48-unpruned vs.\ J48-pruned: the effect of pruning}{subsection.5.4}{}}
+\citation{dietterich2000experimental}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Tree-based classifiers: single tree vs.\ ensembles}{12}{subsection.5.5}\protected@file@percent }
 \newlabel{sec:disc-trees}{{5.5}{12}{Tree-based classifiers: single tree vs.\ ensembles}{subsection.5.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Mean accuracy by classifier family. Two families are effectively tied for first place: KNN-based ($70.2\%$, mean of IBk $k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\ and J48-pr.), separated by only $0.2$~pp. Both stand notably above tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$). Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines ($62.6\%$) by $+5.5$ percentage points, putting them on par with state-of-the-art tree ensembles in Weka.}}{12}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:family}{{8}{12}{Mean accuracy by classifier family. Two families are effectively tied for first place: KNN-based ($70.2\%$, mean of IBk $k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\^^Mand J48-pr.), separated by only $0.2$~pp. Both stand notably above tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$). Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines ($62.6\%$) by $+5.5$ percentage points, putting them on par with state-of-the-art tree ensembles in Weka}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Statistical significance of our extensions}{12}{subsection.5.6}\protected@file@percent }
+\newlabel{sec:disc-ttest}{{5.6}{12}{Statistical significance of our extensions}{subsection.5.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Paired $t$-test on the ten per-fold accuracies. Significance levels: $^{**}\!p<0.01$, $^{*}\!p<0.05$, n.s.\ otherwise.}}{12}{table.caption.13}\protected@file@percent }
+\newlabel{tab:ttest}{{5}{12}{Paired $t$-test on the ten per-fold accuracies. Significance levels: $^{**}\!p<0.01$, $^{*}\!p<0.05$, n.s.\ otherwise}{table.caption.13}{}}
 \citation{chicco2020machine}
-\citation{wilson1997improved}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Statistical significance of our extensions}{13}{subsection.5.6}\protected@file@percent }
-\newlabel{sec:disc-ttest}{{5.6}{13}{Statistical significance of our extensions}{subsection.5.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Paired $t$-test on the ten per-fold accuracies. Significance levels: $^{**}\!p<0.01$, $^{*}\!p<0.05$, n.s.\ otherwise.}}{13}{table.caption.13}\protected@file@percent }
-\newlabel{tab:ttest}{{5}{13}{Paired $t$-test on the ten per-fold accuracies. Significance levels: $^{**}\!p<0.01$, $^{*}\!p<0.05$, n.s.\ otherwise}{table.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Mean accuracy by classifier family. Two families are effectively tied for first place: KNN-based ($70.2\%$, mean of IBk $k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\ and J48-pr.), separated by only $0.2$~pp. Both stand notably above tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$). Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines ($62.6\%$) by $+5.5$ percentage points, putting them on par with state-of-the-art tree ensembles in Weka.}}{13}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:family}{{8}{13}{Mean accuracy by classifier family. Two families are effectively tied for first place: KNN-based ($70.2\%$, mean of IBk $k{=}1$ and $k{=}5$) and single trees ($70.0\%$, mean of 1R, J48-unpr.\^^Mand J48-pr.), separated by only $0.2$~pp. Both stand notably above tree ensembles ($68.4\%$) and the linear/Bayesian family ($69.1\%$). Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines ($62.6\%$) by $+5.5$ percentage points, putting them on par with state-of-the-art tree ensembles in Weka}{figure.caption.12}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}{section.6}\protected@file@percent }
+\citation{wilson1997improved}
 \bibstyle{plain}
 \bibdata{references}
 \bibcite{chicco2020machine}{1}
@@ -88,14 +88,14 @@
 \bibcite{wilson1997improved}{7}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Source code: KNN+}{15}{appendix.A}\protected@file@percent }
 \newlabel{app:knnplus-code}{{A}{15}{Source code: KNN+}{appendix.A}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces \texttt  {plus.py}: shared helpers (lines 49--100) and the KNN+ classifier (lines 107--200). The information-gain weights are computed in \texttt  {\_info\_gains}, the Laplace-smoothed VDM tables in \texttt  {\_build\_vdm\_tables}, and the per-instance distance and majority vote in \texttt  {classify\_knnplus}.}}{15}{lstlisting.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Source code: DT+}{17}{appendix.B}\protected@file@percent }
-\newlabel{app:dtplus-code}{{B}{17}{Source code: DT+}{appendix.B}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces \texttt  {plus.py}: the DT+ classifier. The full Information-Gain tree is built by \texttt  {\_build\_dt}, the stratified grow/prune split by \texttt  {\_stratified\_split}, and the bottom-up Reduced-Error Pruning by \texttt  {\_rep\_prune}. The 25\% prune fraction was selected by internal cross-validation as described in Section~\ref {sec:dtplus}.}}{17}{lstlisting.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces \texttt  {plus.py}: shared helpers (lines 49--100) and the KNN+ classifier (lines 107--200). The information-gain weights are computed in \texttt  {\_info\_gains}, the Laplace-smoothed VDM tables in \texttt  {\_build\_vdm\_tables}, and the per-instance distance and majority vote in \texttt  {classify\_knnplus}.}}{16}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Source code: DT+}{18}{appendix.B}\protected@file@percent }
+\newlabel{app:dtplus-code}{{B}{18}{Source code: DT+}{appendix.B}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces \texttt  {plus.py}: the DT+ classifier. The full Information-Gain tree is built by \texttt  {\_build\_dt}, the stratified grow/prune split by \texttt  {\_stratified\_split}, and the bottom-up Reduced-Error Pruning by \texttt  {\_rep\_prune}. The 25\% prune fraction was selected by internal cross-validation as described in Section~\ref {sec:dtplus}.}}{18}{lstlisting.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {C}MyDT diagram (full Information-Gain tree, no pruning)}{20}{appendix.C}\protected@file@percent }
 \newlabel{app:dt-tree}{{C}{20}{MyDT diagram (full Information-Gain tree, no pruning)}{appendix.C}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces MyDT trained on heart.csv. Each leaf is shown as ``$\rightarrow $ class''.}}{20}{lstlisting.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {D}MyDT+ diagram (Reduced-Error Pruning)}{24}{appendix.D}\protected@file@percent }
-\newlabel{app:dt-plus-tree}{{D}{24}{MyDT+ diagram (Reduced-Error Pruning)}{appendix.D}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces MyDT+ trained on heart.csv with REP and a $25\%$ prune set.}}{24}{lstlisting.4}\protected@file@percent }
-\gdef \@abspage@last{25}
+\@writefile{toc}{\contentsline {section}{\numberline {D}MyDT+ diagram (Reduced-Error Pruning)}{25}{appendix.D}\protected@file@percent }
+\newlabel{app:dt-plus-tree}{{D}{25}{MyDT+ diagram (Reduced-Error Pruning)}{appendix.D}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces MyDT+ trained on heart.csv with REP and a $25\%$ prune set.}}{25}{lstlisting.4}\protected@file@percent }
+\gdef \@abspage@last{26}
