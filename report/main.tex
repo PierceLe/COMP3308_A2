@@ -164,7 +164,7 @@
 \author{%
 Student 1: \texttt{530328265}\\
 Student 2: \texttt{530012216}\\
-Student 3: \texttt{<SID3>}}
+Student 3: \texttt{510035945}}
 \date{\today}
 
 \begin{document}
@@ -182,7 +182,7 @@ Student 3: \texttt{<SID3>}}
 {\small
 Student 1: \texttt{530328265}\quad
 Student 2: \texttt{530012216}\quad
-Student 3: \texttt{<SID3>}}\\[2pt]
+Student 3: \texttt{510035945}}\\[2pt]
 {\small\today}
 \end{center}
 
@@ -434,10 +434,12 @@ always defined.
 On the full \texttt{heart.csv} the smoothed conditional probabilities for
 \texttt{CPK} are
 \[
-\hat P(\text{died}\mid \texttt{CPK}{=}\text{normal})\!=\!0.32,\quad
-\hat P(\text{died}\mid \text{high})\!=\!0.36,\quad
-\hat P(\text{died}\mid \text{very-high})\!=\!0.25,\quad
-\hat P(\text{died}\mid \text{severely-high})\!=\!0.71.
+\begin{aligned}
+\hat P(\text{died}\mid \texttt{CPK}=\text{normal}) &= 0.32,\\
+\hat P(\text{died}\mid \text{high}) &= 0.36,\\
+\hat P(\text{died}\mid \text{very-high}) &= 0.25,\\
+\hat P(\text{died}\mid \text{severely-high}) &= 0.71.
+\end{aligned}
 \]
 The Hamming distance between any two distinct \texttt{CPK} values is
 $1$, but VDM distinguishes them: $\delta(\text{normal},\text{high})\!=\!0.07$ (almost
@@ -627,101 +629,226 @@ Tables~\ref{tab:acc}--\ref{tab:metrics}, ranked by accuracy and by F1 on
 quantitative basis for the discussion in Section~\ref{sec:disc-all}.
 
 \begin{figure}[!ht]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    width=15.5cm, height=7.4cm,
-    ybar, bar width=10pt,
-    ymin=55, ymax=82,
-    ylabel={Mean 10-fold CV accuracy (\%)},
-    xtick={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},
-    xticklabels={ZeroR,1R,IBk\,$k{=}1$,IBk\,$k{=}5$,NB,J48 unpr.,J48 pr.,MLP,SMO,Bagg J48,Boost J48,RF,MyKNN\,$k{=}1$,MyKNN\,$k{=}5$,MyKNN+\,$k{=}1$,MyKNN+\,$k{=}5$,MyDT,MyDT+},
-    xticklabel style={rotate=55, anchor=east, font=\footnotesize, yshift=2pt},
-    nodes near coords, nodes near coords align={vertical},
-    every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west},
-    enlarge x limits=0.03,
-    ymajorgrids, grid style=gray!25,
-    every axis plot/.append style={fill, draw=none},
-]
-\addplot[fill=cBaseline!70]     coordinates {(1,\accZeroR)};
-\addplot[fill=cWeka!70]         coordinates {(2,\accOneR)};
-\addplot[fill=cWeka!70]         coordinates {(3,\accIBkOne)};
-\addplot[fill=cWeka!70]         coordinates {(4,\accIBkFive)};
-\addplot[fill=cWeka!70]         coordinates {(5,\accNB)};
-\addplot[fill=cWekaTree!70]     coordinates {(6,\accJfourEightU)};
-\addplot[fill=cWekaTree!70]     coordinates {(7,\accJfourEightP)};
-\addplot[fill=cWeka!70]         coordinates {(8,\accMLP)};
-\addplot[fill=cWeka!70]         coordinates {(9,\accSMO)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(10,\accBagg)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(11,\accBoost)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(12,\accRF)};
-\addplot[fill=cMyKNN!70]        coordinates {(13,\accKNNone)};
-\addplot[fill=cMyKNN!70]        coordinates {(14,\accKNNfive)};
-\addplot[fill=cMyKNNplus!70]    coordinates {(15,\accKNNplusone)};
-\addplot[fill=cMyKNNplus!70]    coordinates {(16,\accKNNplusfive)};
-\addplot[fill=cMyDT!70]         coordinates {(17,\accDT)};
-\addplot[fill=cMyDTplus!70]     coordinates {(18,\accDTplus)};
-\draw[dashed, red!60!black, thick] (axis cs:0.5,67) -- (axis cs:18.5,67);
-\node[anchor=west, font=\scriptsize, red!60!black] at (axis cs:0.6,68.6) {ZeroR baseline};
-\end{axis}
-\end{tikzpicture}
-\caption{Mean accuracy on the heart-failure dataset (10-fold stratified
-CV). Bars are coloured by family:
-\textcolor{cBaseline!75!black}{$\blacksquare$}~ZeroR baseline,
-\textcolor{cWeka!75!black}{$\blacksquare$}~Weka classical,
-\textcolor{cWekaTree!75!black}{$\blacksquare$}~Weka single tree (J48),
-\textcolor{cWekaEnsemble!75!black}{$\blacksquare$}~Weka ensemble,
-\textcolor{cMyKNN!75!black}{$\blacksquare$}~MyKNN,
-\textcolor{cMyKNNplus!75!black}{$\blacksquare$}~MyKNN+,
-\textcolor{cMyDT!75!black}{$\blacksquare$}~MyDT,
-\textcolor{cMyDTplus!75!black}{$\blacksquare$}~MyDT+.}
-\label{fig:accbar}
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[
+      width=15.5cm,
+      height=7.4cm,
+      ybar,
+      bar width=10pt,
+      bar shift=0pt,
+      ymin=55,
+      ymax=82,
+      ylabel={Mean 10-fold CV accuracy (\%)},
+      xtick={1,...,18},
+      xticklabels={
+          ZeroR,1R,IBk1,IBk5,NB,J48u,J48p,MLP,SMO,
+          Bagg,Boost,RF,KNN1,KNN5,KNN+1,KNN+5,DT,DT+
+      },
+      xticklabel style={
+          rotate=55,
+          anchor=east,
+          font=\scriptsize
+      },
+      nodes near coords,
+      every node near coord/.append style={
+          font=\scriptsize,
+          rotate=90,
+          anchor=west
+      },
+      enlarge x limits=0.05,
+      ymajorgrids,
+      grid style=gray!25,
+      every axis plot/.append style={fill, draw=none},
+  ]
+
+  \addplot[fill=cBaseline!70]     coordinates {(1,\accZeroR)};
+  \addplot[fill=cWeka!70]         coordinates {(2,\accOneR)};
+  \addplot[fill=cWeka!70]         coordinates {(3,\accIBkOne)};
+  \addplot[fill=cWeka!70]         coordinates {(4,\accIBkFive)};
+  \addplot[fill=cWeka!70]         coordinates {(5,\accNB)};
+  \addplot[fill=cWekaTree!70]     coordinates {(6,\accJfourEightU)};
+  \addplot[fill=cWekaTree!70]     coordinates {(7,\accJfourEightP)};
+  \addplot[fill=cWeka!70]         coordinates {(8,\accMLP)};
+  \addplot[fill=cWeka!70]         coordinates {(9,\accSMO)};
+  \addplot[fill=cWekaEnsemble!70] coordinates {(10,\accBagg)};
+  \addplot[fill=cWekaEnsemble!70] coordinates {(11,\accBoost)};
+  \addplot[fill=cWekaEnsemble!70] coordinates {(12,\accRF)};
+  \addplot[fill=cMyKNN!70]        coordinates {(13,\accKNNone)};
+  \addplot[fill=cMyKNN!70]        coordinates {(14,\accKNNfive)};
+  \addplot[fill=cMyKNNplus!70]    coordinates {(15,\accKNNplusone)};
+  \addplot[fill=cMyKNNplus!70]    coordinates {(16,\accKNNplusfive)};
+  \addplot[fill=cMyDT!70]         coordinates {(17,\accDT)};
+  \addplot[fill=cMyDTplus!70]     coordinates {(18,\accDTplus)};
+  
+  \draw[dashed, red!60!black, thick] 
+      (axis cs:0.5,67) -- (axis cs:18.5,67);
+  
+  \node[
+      anchor=west,
+      font=\scriptsize,
+      red!60!black,
+      fill=white,
+      inner sep=1pt
+  ] at (axis cs:1.35,68.6) {ZeroR baseline};
+  
+  \end{axis}
+  \end{tikzpicture}
+  \caption{Mean accuracy on the heart-failure dataset (10-fold stratified
+  CV). Bars are coloured by family:
+  \textcolor{cBaseline!75!black}{$\blacksquare$}~ZeroR baseline,
+  \textcolor{cWeka!75!black}{$\blacksquare$}~Weka classical,
+  \textcolor{cWekaTree!75!black}{$\blacksquare$}~Weka single tree (J48),
+  \textcolor{cWekaEnsemble!75!black}{$\blacksquare$}~Weka ensemble,
+  \textcolor{cMyKNN!75!black}{$\blacksquare$}~MyKNN,
+  \textcolor{cMyKNNplus!75!black}{$\blacksquare$}~MyKNN+,
+  \textcolor{cMyDT!75!black}{$\blacksquare$}~MyDT,
+  \textcolor{cMyDTplus!75!black}{$\blacksquare$}~MyDT+.}
+  \label{fig:accbar}
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    width=15.5cm, height=7.4cm,
-    ybar, bar width=10pt,
-    ymin=0, ymax=0.66,
-    ylabel={F1 score on \texttt{died} class},
-    xtick={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},
-    xticklabels={ZeroR,1R,IBk\,$k{=}1$,IBk\,$k{=}5$,NB,J48 unpr.,J48 pr.,MLP,SMO,Bagg J48,Boost J48,RF,MyKNN\,$k{=}1$,MyKNN\,$k{=}5$,MyKNN+\,$k{=}1$,MyKNN+\,$k{=}5$,MyDT,MyDT+},
-    xticklabel style={rotate=55, anchor=east, font=\footnotesize, yshift=2pt},
-    nodes near coords, nodes near coords align={vertical},
-    every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west},
-    enlarge x limits=0.03,
-    ymajorgrids, grid style=gray!25,
-    every axis plot/.append style={fill, draw=none},
-]
-\addplot[fill=cBaseline!70]     coordinates {(1,\fOneZeroR)};
-\addplot[fill=cWeka!70]         coordinates {(2,\fOneOneR)};
-\addplot[fill=cWeka!70]         coordinates {(3,\fOneIBkOne)};
-\addplot[fill=cWeka!70]         coordinates {(4,\fOneIBkFive)};
-\addplot[fill=cWeka!70]         coordinates {(5,\fOneNB)};
-\addplot[fill=cWekaTree!70]     coordinates {(6,\fOneJfourEightU)};
-\addplot[fill=cWekaTree!70]     coordinates {(7,\fOneJfourEightP)};
-\addplot[fill=cWeka!70]         coordinates {(8,\fOneMLP)};
-\addplot[fill=cWeka!70]         coordinates {(9,\fOneSMO)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(10,\fOneBagg)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(11,\fOneBoost)};
-\addplot[fill=cWekaEnsemble!70] coordinates {(12,\fOneRF)};
-\addplot[fill=cMyKNN!70]        coordinates {(13,0.402)};
-\addplot[fill=cMyKNN!70]        coordinates {(14,0.413)};
-\addplot[fill=cMyKNNplus!70]    coordinates {(15,0.449)};
-\addplot[fill=cMyKNNplus!70]    coordinates {(16,0.452)};
-\addplot[fill=cMyDT!70]         coordinates {(17,0.487)};
-\addplot[fill=cMyDTplus!70]     coordinates {(18,0.490)};
-\end{axis}
-\end{tikzpicture}
-\caption{F1 score on the positive (\texttt{died}) class. The ranking
-is strikingly different from accuracy: SMO ($\fOneSMO$), OneR
-($\fOneOneR$) and IBk\,$k{=}1$ ($\fOneIBkOne$) lead, while ZeroR
-collapses to F1$=0$ despite scoring $\accZeroR\%$ accuracy. Same
-colour scheme as Figure~\ref{fig:accbar}.}
-\label{fig:f1bar}
-\end{figure}
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[
+      width=15.5cm,
+      height=7.4cm,
+      ybar,
+      bar width=10pt,
+      bar shift=0pt,
+      ymin=0,
+      ymax=0.66,
+      ylabel={F1 score on \texttt{died} class},
+      xtick={1,...,18},
+      xticklabels={
+          ZeroR,1R,IBk1,IBk5,NB,J48u,J48p,MLP,SMO,
+          Bagg,Boost,RF,KNN1,KNN5,KNN+1,KNN+5,DT,DT+
+      },
+      xticklabel style={
+          rotate=55,
+          anchor=east,
+          font=\scriptsize
+      },
+      enlarge x limits=0.05,
+      ymajorgrids,
+      grid style=gray!25,
+      every axis plot/.append style={fill, draw=none},
+  ]
+  
+  % ZeroR has F1 = 0, so we do NOT print a value label for it
+  \addplot[fill=cBaseline!70] coordinates {(1,\fOneZeroR)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(2,\fOneOneR)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(3,\fOneIBkOne)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(4,\fOneIBkFive)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(5,\fOneNB)};
+  
+  \addplot[
+      fill=cWekaTree!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(6,\fOneJfourEightU)};
+  
+  \addplot[
+      fill=cWekaTree!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(7,\fOneJfourEightP)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(8,\fOneMLP)};
+  
+  \addplot[
+      fill=cWeka!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(9,\fOneSMO)};
+  
+  \addplot[
+      fill=cWekaEnsemble!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(10,\fOneBagg)};
+  
+  \addplot[
+      fill=cWekaEnsemble!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(11,\fOneBoost)};
+  
+  \addplot[
+      fill=cWekaEnsemble!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(12,\fOneRF)};
+  
+  \addplot[
+      fill=cMyKNN!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(13,0.402)};
+  
+  \addplot[
+      fill=cMyKNN!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(14,0.413)};
+  
+  \addplot[
+      fill=cMyKNNplus!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(15,0.449)};
+  
+  \addplot[
+      fill=cMyKNNplus!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(16,0.452)};
+  
+  \addplot[
+      fill=cMyDT!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(17,0.487)};
+  
+  \addplot[
+      fill=cMyDTplus!70,
+      nodes near coords,
+      every node near coord/.append style={font=\scriptsize, rotate=90, anchor=west}
+  ] coordinates {(18,0.490)};
+  
+  \end{axis}
+  \end{tikzpicture}
+  \caption{F1 score on the positive (\texttt{died}) class. The ranking
+  is strikingly different from accuracy: SMO ($\fOneSMO$), OneR
+  ($\fOneOneR$) and IBk1 ($\fOneIBkOne$) lead, while ZeroR
+  collapses to F1$=0$ despite scoring $\accZeroR\%$ accuracy. Same
+  colour scheme as Figure~\ref{fig:accbar}.}
+  \label{fig:f1bar}
+  \end{figure}
 
 \subsection{Precision--recall trade-off}
 The accuracy and F1 rankings tell two different stories because
@@ -1335,7 +1462,21 @@ important part of the model. I now have a better understanding of how
 cross-validation, class balance, and per-class results matter when 
 judging whether a classifier is actually useful.
 
-\textbf{SID 3.} \emph{TODO (only if your group has three members).}
+\textbf{SID 3 (510035945).} The most important thing I learned from
+this assignment is that a classifier should be judged by how well it
+matches the real problem, not only by how high its accuracy is. Before
+doing the experiments, I expected more complex models such as ensembles
+to perform better, but the results showed that a simple well-pruned
+decision tree could outperform many of them. This was surprising to me
+because MyDT+ achieved the highest accuracy, while models such as ZeroR
+also showed that accuracy can be misleading on an imbalanced dataset.
+ZeroR reached $67.0\%$ accuracy simply by predicting the majority class,
+but it completely failed on the \texttt{died} class. I also learned that
+feature importance matters: attributes such as \texttt{serum\_creatinine}
+carried much more useful information than weaker features, which explains
+why information-gain weighting helped KNN. Overall, this assignment gave
+me a better understanding of overfitting, class imbalance, and the
+trade-off between model simplicity and predictive performance.
 
 % =========================================================================
 \section*{Acknowledgement of AI use}
@@ -1359,7 +1500,16 @@ implementation were completed independently. I also acknowledge the use
 of Grammarly by Grammarly Inc. (\url{https://www.grammarly.com/}) to 
 review grammar, sentence structure, and overall readability.
 
-\textbf{SID 3.} \emph{TODO (only if your group has three members).}
+\textbf{SID 3 (510035945).} I acknowledge the use of ChatGPT (GPT-5.4)
+by OpenAI (\url{https://chat.openai.com/}) as a support tool during
+this assignment. I used it to research LaTeX formatting functions,
+especially for fixing figure layout, graph labels, and mathematical
+notation in the report. I also used it to receive general Python
+debugging suggestions when checking errors in my implementation. The
+tool was not used to copy or generate final code directly, and no final
+analysis, experimental result, or conclusion was copied from ChatGPT.
+All implementation decisions, numerical results, and final report
+content were reviewed and completed by me.
 
 \bibliographystyle{plain}
 \bibliography{references}
