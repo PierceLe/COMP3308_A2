@@ -1005,7 +1005,7 @@ carries most of the signal.
 ZeroR sits at the majority-class baseline of $\accZeroR\%$
 \emph{accuracy} but $0$ F1 on \texttt{died}: a textbook
 illustration that accuracy alone can hide a useless classifier on
-imbalanced data \cite{esposito1997comparative}. Looking at F1 on
+imbalanced data. Looking at F1 on
 \texttt{died} reorders the leaderboard: SMO ($\fOneSMO$), OneR
 ($\fOneOneR$) and IBk\,$k{=}1$ ($\fOneIBkOne$) take the top three
 slots, followed by a middle pack containing AdaBoostM1 ($\fOneBoost$),
@@ -1127,7 +1127,13 @@ which is the visual analogue of the very small standard deviation
     xmin=0.5, xmax=10.5, ymin=0.45, ymax=0.95,
     xtick={1,2,3,4,5,6,7,8,9,10},
     ymajorgrids, grid style=gray!20,
-    legend style={font=\scriptsize, fill=white, draw=gray, at={(0.99,0.02)}, anchor=south east},
+    legend style={
+        font=\scriptsize,
+        fill=white,
+        draw=gray,
+        at={(0.5,-0.28)},
+        anchor=north,
+    },
     legend columns=2,
     every axis plot/.append style={thick, mark size=2.4pt},
 ]
@@ -1154,6 +1160,8 @@ the former is statistically significant under the paired $t$-test
 of Section~\ref{sec:disc-ttest}.}
 \label{fig:perfold}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{My classifiers vs.\ Weka's}
 \label{sec:disc-vs-weka}
@@ -1332,6 +1340,8 @@ Our extensions (My-extensions, $68.2\%$) lift our hand-coded baselines
 state-of-the-art tree ensembles in Weka.}
 \label{fig:family}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{Statistical significance of our extensions}
 \label{sec:disc-ttest}

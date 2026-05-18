@@ -12,12 +12,6 @@ Thomas~G. Dietterich.
   ensembles of decision trees: Bagging, boosting, and randomization.
 \newblock {\em Machine Learning}, 40(2):139--157, 2000.
 
-\bibitem{esposito1997comparative}
-Floriana Esposito, Donato Malerba, and Giovanni Semeraro.
-\newblock A comparative analysis of methods for pruning decision trees.
-\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  19(5):476--491, 1997.
-
 \bibitem{quinlan1987simplifying}
 J.~Ross Quinlan.
 \newblock Simplifying decision trees.
